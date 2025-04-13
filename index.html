@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Get Connected</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- _________ start header/sidemenu area _________ -->
+    <header id="hamburger-menu" class="hamburger-menu">
+        <div class="flex flex-col max-h-full">
+            <div class="p-4 gradient-bg text-white">
+                <div class="flex items-center">
+                    <div id="profile-avatar" class="avatar avatar-large">GC</div>
+                    <div class="ml-4">
+                        <h3 id="menu-username" class="text-lg font-semibold">User Name</h3>
+                        <p id="menu-company" class="text-sm opacity-80">Company Name</p>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class="menu-link" href="index.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="company-settings.html">
+                            <i class="fas fa-building"></i>
+                            <span>Company Settings</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="change-password.html">
+                            <i class="fas fa-lock"></i>
+                            <span>Change Password</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="set-time-zone.html">
+                            <i class="fas fa-globe"></i>
+                            <span>Set Time Zone</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="notifications.html">
+                            <i class="fas fa-bell"></i>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="logout.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- _________ end header/sidemenu area _________ -->
+
+    <!-- _________ start main area _________ -->
+    <main class="main">
+        <div class="gradient-bg text-white p-4 sticky top-0">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div id="menu-toggle" class="menu-icon mr-4">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <h1 class="text-xl font-bold">Get Connected</h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="notification-bell" class="mr-4 relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+                    </div>
+                    <div id="header-avatar" class="avatar">GC</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 py-6">
+            <h2 class="text-2xl font-bold mb-2">Welcome, <span id="user-name">{{data.data.user.name}}</span></h2>
+            <p class="text-gray-600 mb-6">Here's your business at a glance</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="dashboard-tile ai-tile text-white" onclick="navigateTo('ai')">
+                    <i class="fas fa-robot text-2xl mb-2"></i>
+                    <span class="font-semibold">AI Assistant</span>
+                </div>
+                <!-- <div class="dashboard-tile jobs-tile text-white" onclick=getJobs()>
+                    <i class="fas fa-briefcase text-2xl mb-2"></i>
+                    <span class="font-semibold">Jobs</span>
+                </div> -->
+                <div class="dashboard-tile jobs-tile text-white" onclick="getJobs()">
+                    <i class="fas fa-briefcase text-2xl mb-2"></i>
+                    <span class="font-semibold">Jobs</span>
+                </div>
+
+                <!-- Added Jobs API here -->
+
+
+
+
+                <script>
+                    function getJobs() {
+                        const token = localStorage.getItem('token');
+                        console.log(token);
+                        if (!token) {
+                            alert('You need to be logged in to view jobs.');
+                            return;
+                        }
+
+                        fetch('http://localhost:5000/api/jobs', {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                                return response.json(); // or response.text() if the response is not JSON
+                            })
+                            .then(job_data => {
+                                console.log('Jobs data:', job_data);
+                                console.log('Jobs name:', job_data.data[0].name);
+                                // Optional: Navigate to jobs page or do something with the data
+                                navigateTo('jobs'); // Call your navigation function
+                            })
+                            .catch(error => {
+                                console.error('Error fetching jobs:', error);
+                            });
+                    }
+                </script>
+
+                <div class="dashboard-tile estimates-tile text-white" onclick=getEstimates()>
+                    <i class="fas fa-file-invoice-dollar text-2xl mb-2"></i>
+                    <span class="font-semibold">Estimates</span>
+                    <script>
+                        function getEstimates() {
+                            const token = localStorage.getItem('token');
+
+                            if (!token) {
+                                alert('You need to be logged in to view jobs.');
+                                return;
+                            }
+
+                            fetch('http://localhost:5000/api/estimates', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': `Bearer ${token}`,
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    return response.json(); // or response.text() if the response is not JSON
+                                })
+                                .then(estimates_data => {
+                                    console.log('estimates data:', estimates_data);
+                                    // console.log('Jobs name:', job_data.data[0].name);
+                                    // Optional: Navigate to jobs page or do something with the data
+                                    navigateTo('estimates'); // Call your navigation function
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching jobs:', error);
+                                });
+                        }
+                    </script>
+                </div>
+                <div class="dashboard-tile calendar-tile text-white" onclick=getCalender()>
+                    <i class="fas fa-calendar-alt text-2xl mb-2"></i>
+                    <span class="font-semibold">Calendar</span>
+                </div>
+                <script>
+                    function getCalender() {
+                        const token = localStorage.getItem('token');
+
+                        if (!token) {
+                            alert('You need to be logged in to view jobs.');
+                            return;
+                        }
+
+                        fetch('http://localhost:5000/api/calendar/events', {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                                return response.json(); // or response.text() if the response is not JSON
+                            })
+                            .then(calender_data => {
+                                console.log('Jobs data:', calender_data);
+                                // console.log('Jobs name:', job_data.data[0].name);
+                                // Optional: Navigate to jobs page or do something with the data
+                                navigateTo('calendar'); // Call your navigation function
+                            })
+                            .catch(error => {
+                                console.error('Error fetching jobs:', error);
+                            });
+                    }
+                </script>
+            </div>
+
+            <button class="app-btn w-full flex justify-center items-center py-3 mb-6" onclick=getContacts()>
+                <i class="fas fa-address-book mr-2"></i>
+                <span>Contacts</span>
+              </button>
+
+            <!-- Added Contact API -->
+
+            <script>
+                function getContacts() {
+                    const token = localStorage.getItem('token');
+
+                    if (!token) {
+                        alert('You need to be logged in to view contacts.');
+                        return;
+                    }
+
+                    contact_res = fetch('http://localhost:5000/api/contacts', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(contact_data => {
+                            console.log('Contacts data:', contact_data);
+                            // Optional: Navigate to contacts page or render data
+                            navigateTo('contacts', contact_data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching contacts:', error);
+                        });
+
+                }
+            </script>
+
+
+
+            <div class="stat-card mb-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-semibold">Today's Schedule</h3>
+                    <a href="#" class="text-purple-600 text-sm" onclick="navigateTo('calendar')">View All</a>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center p-2 border-b border-gray-100">
+                        <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                        <span class="text-sm mr-auto">Meeting with Client A</span>
+                        <span class="text-xs text-gray-500">10:00 AM</span>
+                    </div>
+                    <div class="flex items-center p-2 border-b border-gray-100">
+                        <div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                        <span class="text-sm mr-auto">Site Visit - Project B</span>
+                        <span class="text-xs text-gray-500">1:30 PM</span>
+                    </div>
+                    <div class="flex items-center p-2">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                        <span class="text-sm mr-auto">Team Check-in</span>
+                        <span class="text-xs text-gray-500">4:00 PM</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="stat-card">
+                    <div class="stat-label">Active Jobs</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 3 from last week
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Estimates</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-arrow-down"></i> 2 from last week
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- _________ end main area _________ -->
+
+    <!-- scripts -->
+    <script src="assets/js/common.js"></script>
+</body>

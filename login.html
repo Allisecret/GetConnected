@@ -12,15 +12,15 @@
 </head>
 
 <body>
-    <!-- Login Page -->
-    <div id="login-page" class="page active">
+    <!-- _________ start main area _________ -->
+    <main>
         <div class="min-h-screen flex flex-col items-center justify-center p-4">
             <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 ios-card">
                 <div class="text-center mb-8">
                     <h1 class="text-3xl font-bold gradient-text mb-2">Get Connected</h1>
                     <p class="text-gray-600">Your business management solution</p>
                 </div>
-                <form id="login-form" target="index.html">
+                <form id="login-form" target="index.html" method="post" autocomplete="off">
                     <div class="form-group">
                         <label for="phone" class="form-label">Phone Number</label>
                         <input type="tel" id="phone" class="app-input" placeholder="602-555-1212" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
@@ -40,50 +40,9 @@
                 </form>
             </div>
         </div>
-    </div>
+    </main>
+    <!-- _________ end main area _________ -->
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginForm = document.getElementById('login-form');
-
-            if (loginForm) {
-                loginForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    const phoneNumber = document.getElementById('phone').value;
-                    const password = document.getElementById('password').value;
-
-                    try {
-                        const response = await fetch('http://localhost:5000/api/auth/login', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                phoneNumber,
-                                password
-                            })
-                        });
-
-                        const data = await response.json();
-                        // localStorage.setItem('token', data..token);
-                        console.log("dataa", data)
-
-                        if (response.ok) {
-                            alert('Login successful!');
-                            console.log("tokendata", data.token)
-                            localStorage.setItem('token', data.data.token); // Save token
-
-                        } else {
-                            alert(data.message || 'Login failed');
-                        }
-
-                    } catch (error) {
-                        console.error('Login error:', error);
-                        alert('An error occurred during login.');
-                    }
-                });
-            }
-        });
-    </script>
+    <!-- scripts -->
+    <script src="assets/js/login.js"></script>
 </body>

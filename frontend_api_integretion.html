@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,8 +8,781 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+         :root {
+            --primary: #8A2BE2;
+            --secondary: #FF1493;
+            --dark-primary: #6A1CB7;
+            --light-primary: #9D4EE9;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --background: #F9F9F9;
+            --white: #FFFFFF;
+            --light-gray: #EEEEEE;
+            --gray: #DDDDDD;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+        
+        .page {
+            /* display: none; */
+            min-height: 100vh;
+            width: 100%;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .page.active {
+            /* display: block; */
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .app-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(138, 43, 226, 0.2);
+        }
+        
+        .app-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(138, 43, 226, 0.3);
+        }
+        
+        .app-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(138, 43, 226, 0.3);
+        }
+        
+        .app-btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .app-btn-outline:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+        }
+        
+        .app-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .app-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+        
+        .dashboard-tile {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            transition: all 0.3s ease;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .hamburger-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background-color: var(--white);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .hamburger-menu.open {
+            left: 0;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .menu-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .menu-icon span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-icon.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-icon.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            width: 280px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1002;
+            transition: right 0.3s ease;
+        }
+        
+        .notification.show {
+            right: 20px;
+        }
+        
+        .job-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .job-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .status-open {
+            background-color: var(--info);
+        }
+        
+        .status-in-progress {
+            background-color: var(--warning);
+        }
+        
+        .status-completed {
+            background-color: var(--success);
+        }
+        
+        .status-delayed {
+            background-color: var(--danger);
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .tab-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 250px;
+            margin: 15px 0;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 10px;
+        }
+        
+        .calendar-container {
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .avatar-large {
+            width: 80px;
+            height: 80px;
+            font-size: 28px;
+        }
+        
+        .contact-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .menu-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+        }
+        
+        .menu-item i {
+            width: 24px;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .calendar-day {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-day:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+        }
+        
+        .calendar-day.today {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .calendar-day.has-event {
+            border: 2px solid var(--primary);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: var(--gray);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: typing 1.3s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+            margin-right: 0;
+        }
+        
+        @keyframes typing {
+            0% {
+                transform: translateY(0px);
+                background-color: var(--gray);
+            }
+            25% {
+                transform: translateY(-5px);
+                background-color: var(--primary);
+            }
+            50% {
+                transform: translateY(0px);
+                background-color: var(--gray);
+            }
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            position: relative;
+            clear: both;
+        }
+        
+        .message.user {
+            background-color: var(--light-primary);
+            color: white;
+            float: right;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.bot {
+            background-color: var(--light-gray);
+            color: var(--text-primary);
+            float: left;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .ai-tile {
+            background: linear-gradient(135deg, #6A1CB7 0%, #9D4EE9 100%);
+        }
+        
+        .jobs-tile {
+            background: linear-gradient(135deg, #FF1493 0%, #FF69B4 100%);
+        }
+        
+        .estimates-tile {
+            background: linear-gradient(135deg, #9D4EE9 0%, #FF1493 100%);
+        }
+        
+        .calendar-tile {
+            background: linear-gradient(135deg, #8A2BE2 0%, #9932CC 100%);
+        }
+        
+        .ai-bot-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3);
+        }
+        /* Loading animations */
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(138, 43, 226, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        /* Hide scrollbar */
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+        /* Form styles */
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        /* Toast notification */
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--white);
+            color: var(--text-primary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1010;
+            display: flex;
+            align-items: center;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast-warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .toast-info {
+            border-left: 4px solid var(--info);
+        }
+        /* Switch toggle */
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: .3s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+        
+        input:focus+.slider {
+            box-shadow: 0 0 1px var(--primary);
+        }
+        
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+        /* Card hover effects */
+        
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        /* Statistics card */
+        
+        .stat-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .stat-change.positive {
+            color: var(--success);
+        }
+        
+        .stat-change.negative {
+            color: var(--danger);
+        }
+        /* Make colors more iOS-friendly */
+        
+        .ios-bg {
+            background: rgba(245, 245, 247, 0.95);
+        }
+        
+        .ios-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        /* Animations for page transitions */
+        
+        .slide-in {
+            animation: slideIn 0.3s forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .slide-out {
+            animation: slideOut 0.3s forwards;
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+        /* Responsive adjustments for iOS */
+        
+        @media (max-width: 767px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .dashboard-tile {
+                height: 120px;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .app-input {
+                padding: 10px 14px;
+                font-size: 16px;
+                /* iOS optimal input size */
+            }
+            .app-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+                /* iOS optimal button text size */
+            }
+        }
+    </style>
 </head>
+
 <body>
     <!-- Toast Notification -->
     <div id="toast" class="toast">
@@ -93,50 +867,50 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const loginForm = document.getElementById('login-form');
-      
-          if (loginForm) {
-            loginForm.addEventListener('submit', async function (e) {
-              e.preventDefault();
-      
-              const phoneNumber = document.getElementById('phone').value;
-              const password = document.getElementById('password').value;
-      
-              try {
-                const response = await fetch('http://localhost:5000/api/auth/login', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    phoneNumber,
-                    password
-                  })
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const phoneNumber = document.getElementById('phone').value;
+                    const password = document.getElementById('password').value;
+
+                    try {
+                        const response = await fetch('http://localhost:5000/api/auth/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                phoneNumber,
+                                password
+                            })
+                        });
+
+                        const data = await response.json();
+                        // localStorage.setItem('token', data..token);
+                        console.log("dataa", data)
+
+                        if (response.ok) {
+                            alert('Login successful!');
+                            console.log("tokendata", data.token)
+                            localStorage.setItem('token', data.data.token); // Save token
+
+                        } else {
+                            alert(data.message || 'Login failed');
+                        }
+
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        alert('An error occurred during login.');
+                    }
                 });
-      
-                const data = await response.json();
-                // localStorage.setItem('token', data..token);
-                console.log("dataa",data)
-      
-                if (response.ok) {
-                  alert('Login successful!');
-                  console.log("tokendata",data.token)
-                  localStorage.setItem('token', data.data.token); // Save token
-                 
-                } else {
-                  alert(data.message || 'Login failed');
-                }
-      
-              } catch (error) {
-                console.error('Login error:', error);
-                alert('An error occurred during login.');
-              }
-            });
-          }
+            }
         });
-      </script>
-      
+    </script>
+
 
     <!-- Dashboard Page -->
     <div id="dashboard-page" class="page">
@@ -176,85 +950,83 @@
                 <div class="dashboard-tile jobs-tile text-white" onclick="getJobs()">
                     <i class="fas fa-briefcase text-2xl mb-2"></i>
                     <span class="font-semibold">Jobs</span>
-                  </div>
+                </div>
 
-  <!-- Added Jobs API here -->
-                
-                    
-                
-              
+                <!-- Added Jobs API here -->
+
+
+
+
                 <script>
                     function getJobs() {
-                      const token = localStorage.getItem('token');
+                        const token = localStorage.getItem('token');
                         console.log(token);
-                      if (!token) {
-                        alert('You need to be logged in to view jobs.');
-                        return;
-                      }
-                  
-                      fetch('http://localhost:5000/api/jobs', {
-                        method: 'GET',
-                        headers: {
-                          'Authorization': `Bearer ${token}`,
-                          'Content-Type': 'application/json'
+                        if (!token) {
+                            alert('You need to be logged in to view jobs.');
+                            return;
                         }
-                      })
-                      .then(response => {
-                        if (!response.ok) {
-                          throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json(); // or response.text() if the response is not JSON
-                      })
-                      .then(job_data => {
-                        console.log('Jobs data:', job_data);
-                        console.log('Jobs name:', job_data.data[0].name);
-                        // Optional: Navigate to jobs page or do something with the data
-                        navigateTo('jobs'); // Call your navigation function
-                      })
-                      .catch(error => {
-                        console.error('Error fetching jobs:', error);
-                      });
+
+                        fetch('http://localhost:5000/api/jobs', {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                                return response.json(); // or response.text() if the response is not JSON
+                            })
+                            .then(job_data => {
+                                console.log('Jobs data:', job_data);
+                                console.log('Jobs name:', job_data.data[0].name);
+                                // Optional: Navigate to jobs page or do something with the data
+                                navigateTo('jobs'); // Call your navigation function
+                            })
+                            .catch(error => {
+                                console.error('Error fetching jobs:', error);
+                            });
                     }
-                   
-            </script>
-                  
+                </script>
+
                 <div class="dashboard-tile estimates-tile text-white" onclick=getEstimates()>
                     <i class="fas fa-file-invoice-dollar text-2xl mb-2"></i>
                     <span class="font-semibold">Estimates</span>
                     <script>
                         function getEstimates() {
-                          const token = localStorage.getItem('token');
-                      
-                          if (!token) {
-                            alert('You need to be logged in to view jobs.');
-                            return;
-                          }
-                      
-                          fetch('http://localhost:5000/api/estimates', {
-                            method: 'GET',
-                            headers: {
-                              'Authorization': `Bearer ${token}`,
-                              'Content-Type': 'application/json'
+                            const token = localStorage.getItem('token');
+
+                            if (!token) {
+                                alert('You need to be logged in to view jobs.');
+                                return;
                             }
-                          })
-                          .then(response => {
-                            if (!response.ok) {
-                              throw new Error(`HTTP error! Status: ${response.status}`);
-                            }
-                            return response.json(); // or response.text() if the response is not JSON
-                          })
-                          .then(estimates_data => {
-                            console.log('estimates data:', estimates_data);
-                            // console.log('Jobs name:', job_data.data[0].name);
-                            // Optional: Navigate to jobs page or do something with the data
-                            navigateTo('estimates'); // Call your navigation function
-                          })
-                          .catch(error => {
-                            console.error('Error fetching jobs:', error);
-                          });
+
+                            fetch('http://localhost:5000/api/estimates', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': `Bearer ${token}`,
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    return response.json(); // or response.text() if the response is not JSON
+                                })
+                                .then(estimates_data => {
+                                    console.log('estimates data:', estimates_data);
+                                    // console.log('Jobs name:', job_data.data[0].name);
+                                    // Optional: Navigate to jobs page or do something with the data
+                                    navigateTo('estimates'); // Call your navigation function
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching jobs:', error);
+                                });
                         }
-                       
-                </script>
+                    </script>
                 </div>
                 <div class="dashboard-tile calendar-tile text-white" onclick=getCalender()>
                     <i class="fas fa-calendar-alt text-2xl mb-2"></i>
@@ -262,84 +1034,81 @@
                 </div>
                 <script>
                     function getCalender() {
-                      const token = localStorage.getItem('token');
-                  
-                      if (!token) {
-                        alert('You need to be logged in to view jobs.');
-                        return;
-                      }
-                  
-                      fetch('http://localhost:5000/api/calendar/events', {
-                        method: 'GET',
-                        headers: {
-                          'Authorization': `Bearer ${token}`,
-                          'Content-Type': 'application/json'
+                        const token = localStorage.getItem('token');
+
+                        if (!token) {
+                            alert('You need to be logged in to view jobs.');
+                            return;
                         }
-                      })
-                      .then(response => {
-                        if (!response.ok) {
-                          throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json(); // or response.text() if the response is not JSON
-                      })
-                      .then(calender_data => {
-                        console.log('Jobs data:', calender_data);
-                        // console.log('Jobs name:', job_data.data[0].name);
-                        // Optional: Navigate to jobs page or do something with the data
-                        navigateTo('calendar'); // Call your navigation function
-                      })
-                      .catch(error => {
-                        console.error('Error fetching jobs:', error);
-                      });
+
+                        fetch('http://localhost:5000/api/calendar/events', {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                                return response.json(); // or response.text() if the response is not JSON
+                            })
+                            .then(calender_data => {
+                                console.log('Jobs data:', calender_data);
+                                // console.log('Jobs name:', job_data.data[0].name);
+                                // Optional: Navigate to jobs page or do something with the data
+                                navigateTo('calendar'); // Call your navigation function
+                            })
+                            .catch(error => {
+                                console.error('Error fetching jobs:', error);
+                            });
                     }
-                   
-            </script>
+                </script>
             </div>
 
             <button class="app-btn w-full flex justify-center items-center py-3 mb-6" onclick=getContacts()>
                 <i class="fas fa-address-book mr-2"></i>
                 <span>Contacts</span>
               </button>
-              
-              <!-- Added Contact API -->
-              
-              <script>
-                function getContacts() {
-                  const token = localStorage.getItem('token');
-              
-                  if (!token) {
-                    alert('You need to be logged in to view contacts.');
-                    return;
-                  }
-              
-                  contact_res=fetch('http://localhost:5000/api/contacts', {
-                    method: 'GET',
-                    headers: {
-                      'Authorization': `Bearer ${token}`,
-                      'Content-Type': 'application/json'
-                    }
-                  })
-                  .then(response => {
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                  })
-                  .then(contact_data => {
-                    console.log('Contacts data:', contact_data);
-                    // Optional: Navigate to contacts page or render data
-                    navigateTo('contacts',contact_data);
-                  })
-                  .catch(error => {
-                    console.error('Error fetching contacts:', error);
-                  });
-                 
-                }
 
-    
-</script>
-              
-              
+            <!-- Added Contact API -->
+
+            <script>
+                function getContacts() {
+                    const token = localStorage.getItem('token');
+
+                    if (!token) {
+                        alert('You need to be logged in to view contacts.');
+                        return;
+                    }
+
+                    contact_res = fetch('http://localhost:5000/api/contacts', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(contact_data => {
+                            console.log('Contacts data:', contact_data);
+                            // Optional: Navigate to contacts page or render data
+                            navigateTo('contacts', contact_data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching contacts:', error);
+                        });
+
+                }
+            </script>
+
+
 
             <div class="stat-card mb-4">
                 <div class="flex justify-between items-center">
@@ -416,12 +1185,8 @@
                     Great! Any pending tasks I should know about?
                 </div>
                 <div class="message bot">
-                    Yes, there are 3 pending tasks:
-                    1. Material approval for phase 2 (due in 2 days)
-                    2. Client meeting for mid-project review (scheduled for tomorrow at 2 PM)
-                    3. Budget review for the next milestone (due by end of week)
-
-                    Would you like me to help you with any of these tasks?
+                    Yes, there are 3 pending tasks: 1. Material approval for phase 2 (due in 2 days) 2. Client meeting for mid-project review (scheduled for tomorrow at 2 PM) 3. Budget review for the next milestone (due by end of week) Would you like me to help you with
+                    any of these tasks?
                 </div>
             </div>
 
@@ -496,7 +1261,7 @@
                             <span>Due: Jun 15, 2023</span>
                         </div>
                     </div>
-                </div> 
+                </div>
 
                 <!-- <div class="job-card">
                     <div class="flex justify-between items-start mb-2">
@@ -569,7 +1334,7 @@
                         </div>
                     </div>
                 </div> -->
-             </div>
+            </div>
 
             <div id="completed-jobs" class="tab-content hidden">
                 <div class="flex justify-between items-center mb-4">
@@ -1044,7 +1809,7 @@
     </div>
 
     <!-- Contacts Page -->
-     <div id="contacts-page" class="page"> 
+    <div id="contacts-page" class="page">
         <header class="gradient-bg text-white p-4">
             <div class="flex items-center">
                 <button class="mr-2" onclick="navigateTo('dashboard')">
@@ -1065,7 +1830,7 @@
             <!-- <div id="contactsContainer">{{contact_res}}</div> -->
 
             <div class="mb-4">
-                
+
                 <div class="text-sm font-semibold text-gray-500 mb-2">A</div>
                 <div class="contact-card" onclick="showContactDetails('{contact_data.data[0].name}')">
                     <div class="avatar mr-3">KA</div>
@@ -1672,7 +2437,7 @@
             document.getElementById('menu-username').textContent = userData.name;
             document.getElementById('menu-company').textContent = userData.company;
             document.getElementById('user-name').textContent = userData.name.split(' ')[0];
-            
+
             // Set avatar initials
             const avatars = document.querySelectorAll('.avatar');
             avatars.forEach(avatar => {
@@ -1686,13 +2451,13 @@
                     const tabContainer = this.closest('.tab-container');
                     const tabContents = document.querySelectorAll('.tab-content');
                     const targetTabId = this.getAttribute('data-tab');
-                    
+
                     // Update active tab
                     tabContainer.querySelectorAll('.tab').forEach(t => {
                         t.classList.remove('active');
                     });
                     this.classList.add('active');
-                    
+
                     // Show target tab content
                     tabContents.forEach(content => {
                         content.classList.add('hidden');
@@ -1708,13 +2473,13 @@
         function setEventListeners() {
             // Menu toggle
             menuToggle.addEventListener('click', toggleMenu);
-            
+
             // Overlay click to close menu
             overlay.addEventListener('click', toggleMenu);
-            
+
             // Login form submission
             loginForm.addEventListener('submit', handleLogin);
-            
+
             // AI chat functionality
             sendMessage.addEventListener('click', sendAiMessage);
             aiInput.addEventListener('keypress', function(e) {
@@ -1738,14 +2503,14 @@
                 p.classList.remove('slide-in');
                 p.classList.remove('slide-out');
             });
-            
+
             // Show target page with animation
             const targetPage = document.getElementById(`${page}-page`);
             if (targetPage) {
                 targetPage.classList.add('active');
                 targetPage.classList.add('slide-in');
                 currentPage = page;
-                
+
                 // Close menu if open
                 if (menuOpen) {
                     toggleMenu();
@@ -1756,7 +2521,7 @@
         // Toggle hamburger menu
         function toggleMenu() {
             menuOpen = !menuOpen;
-            
+
             if (menuOpen) {
                 hamburgerMenu.classList.add('open');
                 overlay.classList.add('active');
@@ -1773,7 +2538,7 @@
             e.preventDefault();
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
-            
+
             // Simple validation
             if (phone && password) {
                 navigateTo('dashboard');
@@ -1793,38 +2558,38 @@
         function sendAiMessage() {
             const message = aiInput.value.trim();
             if (!message) return;
-            
+
             // Add user message
             const userMessageElement = document.createElement('div');
             userMessageElement.classList.add('message', 'user');
             userMessageElement.textContent = message;
             chatMessages.appendChild(userMessageElement);
-            
+
             // Clear input
             aiInput.value = '';
-            
+
             // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
+
             // Show typing indicator
             const typingIndicator = document.createElement('div');
             typingIndicator.classList.add('typing-indicator');
             typingIndicator.innerHTML = '<span></span><span></span><span></span>';
             chatMessages.appendChild(typingIndicator);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
+
             // Simulate AI response after delay
             setTimeout(() => {
                 // Remove typing indicator
                 chatMessages.removeChild(typingIndicator);
-                
+
                 // Add AI response
                 const aiResponse = getAiResponse(message);
                 const aiMessageElement = document.createElement('div');
                 aiMessageElement.classList.add('message', 'bot');
                 aiMessageElement.textContent = aiResponse;
                 chatMessages.appendChild(aiMessageElement);
-                
+
                 // Scroll to bottom
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 1500);
@@ -1843,7 +2608,7 @@
                 "Based on historical data, this job should take approximately 12-15 business days to complete.",
                 "I've noticed a pattern in client inquiries - would you like me to prepare a report?"
             ];
-            
+
             return responses[Math.floor(Math.random() * responses.length)];
         }
 
@@ -1853,7 +2618,7 @@
             toast.className = 'toast';
             toast.classList.add(`toast-${type}`);
             toast.classList.add('show');
-            
+
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
@@ -1867,13 +2632,13 @@
         // Show contact details
         function showContactDetails(contactId) {
             navigateTo('contact-details');
-            
+
             // In a real app, we would fetch contact details from the server
             // For this demo, we'll use sample data based on the contactId
             let contactName = 'John Smith';
             let contactInitials = 'JS';
-            
-            switch(contactId) {
+
+            switch (contactId) {
                 case 'anderson':
                     contactName = 'Kevin Anderson';
                     contactInitials = 'KA';
@@ -1886,12 +2651,13 @@
                     contactName = 'John Smith';
                     contactInitials = 'JS';
                     break;
-                // Add more cases as needed
+                    // Add more cases as needed
             }
-            
+
             document.getElementById('contact-name').textContent = contactName;
             document.getElementById('contact-avatar').textContent = contactInitials;
         }
     </script>
 </body>
+
 </html>
