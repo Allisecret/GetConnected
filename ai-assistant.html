@@ -94,12 +94,12 @@
         <section class=" top_header gradient-bg">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <div class="xl_hidden mr-4">
-                        <button class="menu-icon" type="button" onclick="toggleMenu()">
-                            <i class="fa-solid fa-bars"></i>
-                        </button>
+                    <div class="mr-3">
+                        <a class="" href="index.html">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
                     </div>
-                    <h1 class="text-xl font-bold">Get Connected</h1>
+                    <h1 class="text-xl font-bold">AI Assistant</h1>
                 </div>
                 <div class="flex items-center">
                     <a class="mr-4 relative" id="notification-bell" href="notifications.html">
@@ -114,85 +114,59 @@
         </section>
         <!-- ....... end top header section ....... -->
 
-        <!-- ....... start stats section ....... -->
+        <!-- ....... start message section ....... -->
         <section>
             <div class="container mx-auto px-4 py-6">
-                <h2 class="text-2xl font-bold mb-2">Welcome, <span id="user-name">John</span></h2>
-                <p class="text-gray-600 mb-6">Here's your business at a glance</p>
-
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <a class="dashboard-tile ai-tile text-white" href="ai-assistant.html">
-                        <i class="fas fa-robot text-2xl mb-2"></i>
-                        <span class="font-semibold">AI Assistant</span>
-                    </a>
-                    <a class="dashboard-tile jobs-tile text-white" href="jobs.html">
-                        <i class="fas fa-briefcase text-2xl mb-2"></i>
-                        <span class="font-semibold">Jobs</span>
-                    </a>
-                    <a class="dashboard-tile estimates-tile text-white" href="estimates.html">
-                        <i class="fas fa-file-invoice-dollar text-2xl mb-2"></i>
-                        <span class="font-semibold">Estimates</span>
-                    </a>
-                    <a class="dashboard-tile calendar-tile text-white" href="calender.html">
-                        <i class="fas fa-calendar-alt text-2xl mb-2"></i>
-                        <span class="font-semibold">Calendar</span>
-                    </a>
-                </div>
-
-                <div>
-                    <a class="app-btn w-full flex justify-center items-center py-3 mb-6" href="contacts.html">
-                        <i class="fas fa-address-book mr-2"></i>
-                        <span>Contacts</span>
-                    </a>
-                </div>
-
-                <div class="stat-card mb-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-semibold">Today's Schedule</h3>
-                        <a class="text-purple-600 text-sm" href="calender.html">View All</a>
-                    </div>
-                    <div class="mt-4">
-                        <div class="flex items-center p-2 border-b border-gray-100">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                            <span class="text-sm mr-auto">Meeting with Client A</span>
-                            <span class="text-xs text-gray-500">10:00 AM</span>
-                        </div>
-                        <div class="flex items-center p-2 border-b border-gray-100">
-                            <div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                            <span class="text-sm mr-auto">Site Visit - Project B</span>
-                            <span class="text-xs text-gray-500">1:30 PM</span>
-                        </div>
-                        <div class="flex items-center p-2">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                            <span class="text-sm mr-auto">Team Check-in</span>
-                            <span class="text-xs text-gray-500">4:00 PM</span>
+                <div class="border rounded-xl overflow-hidden">
+                    <div class="gradient-bg text-white p-3">
+                        <div class="flex items-center">
+                            <div class="flex items-center">
+                                <div class="ai-bot-avatar mr-3">A</div>
+                                <div>
+                                    <h2 class="font-semibold">Alli</h2>
+                                    <p class="text-xs opacity-80">Your Digital Worker Manager</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="stat-card">
-                        <div class="stat-label">Active Jobs</div>
-                        <div class="stat-value">12</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i> 3 from last week
+            
+                    <div class="chat-container">
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="message bot">
+                                Hello! I'm Alli, your digital worker manager. How can I help you today?
+                            </div>
+                            <div class="message user">
+                                I need to check the status of Project X.
+                            </div>
+                            <div class="message bot">
+                                Project X is currently in progress. The team completed the initial assessment phase yesterday and is now working on the implementation. The current completion is at 45% and it's on track to be completed by the scheduled date of June 15th.
+                            </div>
+                            <div class="message user">
+                                Great! Any pending tasks I should know about?
+                            </div>
+                            <div class="message bot">
+                                Yes, there are 3 pending tasks: 1. Material approval for phase 2 (due in 2 days) 2. Client meeting for mid-project review (scheduled for tomorrow at 2 PM) 3. Budget review for the next milestone (due by end of week) Would you like me to help you with
+                                any of these tasks?
+                            </div>
                         </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Pending Estimates</div>
-                        <div class="stat-value">8</div>
-                        <div class="stat-change negative">
-                            <i class="fas fa-arrow-down"></i> 2 from last week
+            
+                        <div class="p-4 border-t border-gray-200">
+                            <div class="flex items-center">
+                                <input type="text" id="ai-input" class="app-input mr-2" placeholder="Type your message...">
+                                <button id="send-message" class="app-btn whitespace-nowrap">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- ....... end stats section ....... -->
+        <!-- ....... end message section ....... -->
     </main>
     <!-- _________ end main area _________ -->
 
     <!-- scripts -->
     <script src="assets/js/common.js"></script>
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/ai-assistant.js"></script>
 </body>

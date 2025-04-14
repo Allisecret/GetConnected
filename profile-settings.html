@@ -35,13 +35,13 @@
             <div class="overflow-x-auto">
                 <ul class="menu-list">
                     <li class="menu-item">
-                        <a class="menu-link active" href="index.html">
+                        <a class="menu-link" href="index.html">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="profile-settings.html">
+                        <a class="menu-link active" href="profile-settings.html">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
@@ -99,7 +99,7 @@
                             <i class="fa-solid fa-bars"></i>
                         </button>
                     </div>
-                    <h1 class="text-xl font-bold">Get Connected</h1>
+                    <h1 class="text-xl font-bold">Profile Settings</h1>
                 </div>
                 <div class="flex items-center">
                     <a class="mr-4 relative" id="notification-bell" href="notifications.html">
@@ -114,85 +114,48 @@
         </section>
         <!-- ....... end top header section ....... -->
 
-        <!-- ....... start stats section ....... -->
+        <!-- ....... start settings section ....... -->
         <section>
             <div class="container mx-auto px-4 py-6">
-                <h2 class="text-2xl font-bold mb-2">Welcome, <span id="user-name">John</span></h2>
-                <p class="text-gray-600 mb-6">Here's your business at a glance</p>
-
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <a class="dashboard-tile ai-tile text-white" href="ai-assistant.html">
-                        <i class="fas fa-robot text-2xl mb-2"></i>
-                        <span class="font-semibold">AI Assistant</span>
-                    </a>
-                    <a class="dashboard-tile jobs-tile text-white" href="jobs.html">
-                        <i class="fas fa-briefcase text-2xl mb-2"></i>
-                        <span class="font-semibold">Jobs</span>
-                    </a>
-                    <a class="dashboard-tile estimates-tile text-white" href="estimates.html">
-                        <i class="fas fa-file-invoice-dollar text-2xl mb-2"></i>
-                        <span class="font-semibold">Estimates</span>
-                    </a>
-                    <a class="dashboard-tile calendar-tile text-white" href="calender.html">
-                        <i class="fas fa-calendar-alt text-2xl mb-2"></i>
-                        <span class="font-semibold">Calendar</span>
-                    </a>
-                </div>
-
-                <div>
-                    <a class="app-btn w-full flex justify-center items-center py-3 mb-6" href="contacts.html">
-                        <i class="fas fa-address-book mr-2"></i>
-                        <span>Contacts</span>
-                    </a>
-                </div>
-
-                <div class="stat-card mb-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-semibold">Today's Schedule</h3>
-                        <a class="text-purple-600 text-sm" href="calender.html">View All</a>
+                <form action="#">
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                        <div class="flex items-center justify-center mb-6">
+                            <div class="avatar avatar-large">GC</div>
+                            <button class="ml-4 app-btn-outline text-sm">
+                                <i class="fas fa-camera mr-1"></i> Change Photo
+                            </button>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="profile-name" class="form-label">Full Name</label>
+                            <input type="text" id="profile-name" class="app-input" value="John Doe">
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="profile-email" class="form-label">Email Address</label>
+                            <input type="email" id="profile-email" class="app-input" value="john.doe@example.com">
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="profile-phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="profile-phone" class="app-input" value="602-555-1212">
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="profile-title" class="form-label">Job Title</label>
+                            <input type="text" id="profile-title" class="app-input" value="Project Manager">
+                        </div>
+        
+                        <button class="app-btn w-full">Save Changes</button>
                     </div>
-                    <div class="mt-4">
-                        <div class="flex items-center p-2 border-b border-gray-100">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                            <span class="text-sm mr-auto">Meeting with Client A</span>
-                            <span class="text-xs text-gray-500">10:00 AM</span>
-                        </div>
-                        <div class="flex items-center p-2 border-b border-gray-100">
-                            <div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                            <span class="text-sm mr-auto">Site Visit - Project B</span>
-                            <span class="text-xs text-gray-500">1:30 PM</span>
-                        </div>
-                        <div class="flex items-center p-2">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                            <span class="text-sm mr-auto">Team Check-in</span>
-                            <span class="text-xs text-gray-500">4:00 PM</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="stat-card">
-                        <div class="stat-label">Active Jobs</div>
-                        <div class="stat-value">12</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i> 3 from last week
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Pending Estimates</div>
-                        <div class="stat-value">8</div>
-                        <div class="stat-change negative">
-                            <i class="fas fa-arrow-down"></i> 2 from last week
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </section>
-        <!-- ....... end stats section ....... -->
+        <!-- ....... end settings section ....... -->
     </main>
     <!-- _________ end main area _________ -->
 
     <!-- scripts -->
     <script src="assets/js/common.js"></script>
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/profile-settings.js"></script>
 </body>
