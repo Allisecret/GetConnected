@@ -40,3 +40,20 @@ tabs.forEach(tab => {
         });
     });
 });
+
+
+// image preview functionality
+document.querySelectorAll('input[data-img-input]').forEach(input => {
+    input.addEventListener('change', function () {
+        const previewKey = this.getAttribute('data-img-input');
+        const previewImg = document.querySelector(`img[data-img-preview="${previewKey}"]`);
+
+        if (this.files && this.files[0] && previewImg) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+});
