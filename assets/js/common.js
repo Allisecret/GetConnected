@@ -1,3 +1,7 @@
+let menuOpen = false;
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const overlay = document.getElementById('overlay');
+overlay.addEventListener("click",toggleMenu);
 function toggleMenu() {
     menuOpen = !menuOpen;
 
@@ -8,6 +12,5 @@ function toggleMenu() {
     } else {
         hamburgerMenu.classList.remove('open');
         overlay.classList.remove('active');
-        menuToggle.classList.remove('active');
     }
 }
