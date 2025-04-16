@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
+
 <body>
     <!-- _________ start header/sidemenu area _________ -->
     <header id="hamburger-menu" class="hamburger-menu">
@@ -131,29 +132,29 @@
                     <!-- <div id="jobsContainer" class="mt-4 space-y-4"></div> -->
 
                     <div class="job-card">
-                        {job_data}
+                    
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold">{job_data.data[0].name}</h3>
+                            <h3 class="font-semibold" id="job-name"></h3>
                             <span class="status-badge status-in-progress">In Progress</span>
                         </div>
                         <div class="grid grid-cols-2 gap-2 text-sm mb-2">
                             <div>
                                 <p class="text-gray-600">Client:</p>
-                                <p>{job_data.data[0].client.name}</p>
+                                <p id="job-clientname"></p>
                             </div>
                             <div>
                                 <p class="text-gray-600">Address:</p>
-                                <p>{job_data.data[0].address}</p>
+                                <p id="job-add"></p>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-2 text-sm">
                             <div>
                                 <p class="text-gray-600">Start Date:</p>
-                                <p>{job_data.data[0].startDate}</p>
+                                <p id="job-startdt"></p>
                             </div>
                             <div>
                                 <p class="text-gray-600">Price:</p>
-                                <p class="font-semibold">{job_data.data[0].price}</p>
+                                <p class="font-semibold" id="job-price"></p>
                             </div>
                         </div>
                         <div class="mt-3">
