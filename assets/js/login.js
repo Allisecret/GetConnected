@@ -29,8 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
           if (response.ok && data?.data?.token) {
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('userInfo', JSON.stringify(data.data.user));
-            alert('Login successful!');
+            localStorage.setItem('isLoggedIn', true);
             window.location.href = 'index.html';
+            alert('Login successful!');
           } else {
             alert(data.message || 'Login failed.');
           }
