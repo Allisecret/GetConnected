@@ -1,17 +1,19 @@
+
 const aiInput = document.getElementById('ai-input');
 const sendMessage = document.getElementById('send-message');
 const chatMessages = document.getElementById('chat-messages');
 
-// AI chat functionality
-sendMessage.addEventListener('click', sendAiMessage);
-aiInput.addEventListener('keypress', function(e) {
+// Add Event Listeners
+sendMessage.addEventListener('click', () => sendAiMessage());
+aiInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
+        e.preventDefault(); // 
         sendAiMessage();
     }
 });
 
-// Send AI message
-function sendAiMessage() {
+// Main send function
+async function sendAiMessage() {
     const message = aiInput.value.trim();
     if (!message) return;
 
@@ -19,51 +21,66 @@ function sendAiMessage() {
     const userMessageElement = document.createElement('div');
     userMessageElement.classList.add('message', 'user');
     userMessageElement.textContent = message;
+    console.log("messeages",message)
     chatMessages.appendChild(userMessageElement);
 
     // Clear input
     aiInput.value = '';
-
-    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Show typing indicator
+  
     const typingIndicator = document.createElement('div');
     typingIndicator.classList.add('typing-indicator');
     typingIndicator.innerHTML = '<span></span><span></span><span></span>';
     chatMessages.appendChild(typingIndicator);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Simulate AI response after delay
-    setTimeout(() => {
+    try {
+        const response = await fetch('https://n8n.dev.quantumos.ai/webhook/97a8fdef-d6dc-4a0a-ad0b-0a585ed1fbdd', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
+        });
+
+       
+
+       
+        const contentType = response.headers.get('content-type') || '';
+        let aiReply = 'No response received.';
+
+        if (response.ok) {
+            if (contentType.includes('application/json')) {
+                const data = await response.json();
+                console.log('Parsed JSON:', data);
+                aiReply = data.output || 'No "output" field found in response.';
+            } else {
+                const text = await response.text();
+                aiReply = text || 'Empty response body.';
+            }
+        } else {
+            const errorText = await response.text();
+            aiReply = `Error ${response.status}: ${errorText || 'Unknown error'}`;
+        }
+
         // Remove typing indicator
         chatMessages.removeChild(typingIndicator);
 
         // Add AI response
-        const aiResponse = getAiResponse(message);
         const aiMessageElement = document.createElement('div');
         aiMessageElement.classList.add('message', 'bot');
-        aiMessageElement.textContent = aiResponse;
+        aiMessageElement.textContent = aiReply;
         chatMessages.appendChild(aiMessageElement);
-
-        // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 1500);
-}
 
-// Get AI response (simplified for demo)
-function getAiResponse(message) {
-    const responses = [
-        "I'll look into that for you right away.",
-        "Based on your current projects, I recommend prioritizing the bathroom renovation this week.",
-        "I've analyzed your schedule and noticed there's a potential conflict next Tuesday.",
-        "The team has completed 45% of the current project, which is on track with our timeline.",
-        "Would you like me to schedule a follow-up call with the client?",
-        "I've updated the job status in our system.",
-        "The latest estimate has been sent to the client via email.",
-        "Based on historical data, this job should take approximately 12-15 business days to complete.",
-        "I've noticed a pattern in client inquiries - would you like me to prepare a report?"
-    ];
+    } catch (error) {
+        console.error('Fetch error:', error);
+        chatMessages.removeChild(typingIndicator);
 
-    return responses[Math.floor(Math.random() * responses.length)];
+        const errorMessage = document.createElement('div');
+        errorMessage.classList.add('message', 'bot');
+        errorMessage.textContent = 'Error: ' + error.message;
+        chatMessages.appendChild(errorMessage);
+    }
 }

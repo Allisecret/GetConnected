@@ -118,75 +118,7 @@
         <!-- ....... start message section ....... -->
         <section>
             <div class="container mx-auto px-4 py-6">
-                <div class="bg-white rounded-lg border overflow-hidden">
-                    <div class="flex flex-col md:flex-row">
-                        <!-- Left sidebar - Conversation list -->
-                        <div class="w-full md:w-1/4 border-r border-gray-200">
-                            <div class="p-4 border-b border-gray-200 bg-gray-50">
-                                <h2 class="text-lg font-semibold text-gray-800">Conversations</h2>
-                                <p class="text-sm text-gray-500">Select a conversation to respond</p>
-                            </div>
-                            
-                            <div class="conversation-list">
-                                <!-- AI Assistant is always the first option -->
-                                <div class="conversation-item p-3 border-b border-gray-200 cursor-pointer flex items-center" data-id="ai" data-contact-id="" data-session-id="">
-                                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
-                                        <i class="fas fa-robot"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="font-medium">@Alli</div>
-                                        <div class="text-sm text-gray-500">AI Assistant</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Customer conversations will be loaded here -->
-                                <div id="conversation-list-container">
-                                    <div class="flex justify-center items-center p-4 loading-indicator" id="conversations-loading">
-                                        <div class="spinner w-6 h-6 border-4 border-gray-200 rounded-full"></div>
-                                        <span class="ml-2 text-gray-600">Loading conversations...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Right side - Chat area -->
-                        <div class="w-full md:w-3/4">
-                            <div class="p-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                                <div>
-                                    <h2 class="text-lg font-semibold text-gray-800" id="current-conversation-title">Select a conversation</h2>
-                                    <p class="text-sm text-gray-500" id="current-conversation-subtitle"></p>
-                                </div>
-                                <button id="refresh-btn" class="p-2 rounded-full hover:bg-gray-200 text-gray-600" title="Refresh conversation">
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="chat-area p-4" id="chat-container">
-                                <div class="flex flex-col items-center justify-center h-64 text-gray-500">
-                                    <i class="fas fa-comments text-4xl mb-3"></i>
-                                    <p>Select a conversation to view messages</p>
-                                </div>
-                                
-                                <div class="flex justify-center items-center p-4 loading-indicator" id="messages-loading">
-                                    <div class="spinner w-6 h-6 border-4 border-gray-200 rounded-full"></div>
-                                    <span class="ml-2 text-gray-600">Loading messages...</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Message input area -->
-                            <div class="p-4 border-t border-gray-200 bg-gray-50">
-                                <form id="message-form" class="flex items-center">
-                                    <input type="text" id="message-input" class="message-input flex-1 px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none" placeholder="Type your response..." disabled="">
-                                    <button type="submit" id="send-btn" class="send-btn text-white px-4 py-2 rounded-r-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed" disabled="">
-                                        <i class="fas fa-paper-plane"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border rounded-xl overflow-hidden hidden">
+                <div class="border rounded-xl overflow-hidden">
                     <div class="gradient-bg text-white p-3">
                         <div class="flex items-center">
                             <div class="flex items-center">

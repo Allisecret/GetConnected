@@ -120,3 +120,42 @@ function getEstimates(event) {
       console.error('Error fetching estimates:', error);
     });
 }
+
+
+// Added CalenderEvent API to save the changes
+function getCalenderEvent(event) {
+  event.preventDefault(); // Prevent link from navigating immediately
+
+  const token = localStorage.getItem('token');
+  // console.log("Token from localStorage:", token);
+
+  if (!token) {
+    alert('You need to be logged in to view jobs.');
+    return;
+  }
+
+  est_res=fetch('https://get-connected-backend.dev.quantumos.ai/api/calendar/events', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => {
+      console.log("Fetch response status:", response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(calEvent_data => {
+      console.log('Calender data received:', calEvent_data);
+      localStorage.setItem('estimatesInfo', JSON.stringify(calEvent_data));
+      // Redirect only after data is saved
+      window.location.href = 'calender.html';
+    })
+    .catch(error => {
+      console.error('Error fetching estimates:', error);
+    });
+}
+
